@@ -34,7 +34,7 @@ import scala.concurrent.duration.Duration
   */
 
 class CrudSqlWithCustomNameMapping extends FlatSpec with Matchers with ScalaFutures with BeforeAndAfter {
-  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=test&password=test"), Duration("0 ms"))
+  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres"), Duration("0 ms"))
   val villainAccess = new VillainAccess
 
   "dbmapper" should "load using name mappings defined via attibutes" in {

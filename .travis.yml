@@ -1,0 +1,14 @@
+language: scala
+scala:
+  - 2.11.2
+jdk:
+  - oraclejdk7
+  - openjdk7
+services:
+  - postgresql
+before_script:
+  - ./script/prepare_build.sh
+
+notifications:
+  email:
+    - nick.edwards.uk@gmail.com

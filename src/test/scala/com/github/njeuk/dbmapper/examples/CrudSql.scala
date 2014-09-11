@@ -33,7 +33,7 @@ import scala.concurrent.duration.Duration
   */
 
 class CrudSql extends FlatSpec with Matchers with ScalaFutures with BeforeAndAfter {
-  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=test&password=test"), Duration("0 ms"))
+  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres"), Duration("0 ms"))
   val superHeroAccess = new SuperHeroAccess
 
   "dbmapper" should "get via the id, the id may not exist" in {
