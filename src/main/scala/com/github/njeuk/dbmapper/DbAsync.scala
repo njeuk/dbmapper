@@ -22,7 +22,9 @@ import com.github.mauricio.async.db.postgresql.pool.PostgreSQLConnectionFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.github.mauricio.async.db.util.Log
 import scala.async.Async._
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration._
+import scala.language.postfixOps
 
 /**
  * DbAsync is the main entry point for executing queries.
@@ -277,6 +279,7 @@ object DbAsync {
       synchronized {
         if (pool.isEmpty || pool.get.isClosed) {
           val x = new ConnectionPool(getFactory(config), PoolConfiguration.Default)
+          Await.result(x.connect, 5 seconds)
           pool = Some(x)
         }
       }
