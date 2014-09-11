@@ -11,4 +11,4 @@ before_script:
 
 notifications:
   email:
-    - nick.edwards.uk@gmail.com
+    - nick@comdevelopment.com
