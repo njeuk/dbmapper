@@ -21,6 +21,7 @@ import com.github.mauricio.async.db.util.Log
 import com.github.njeuk.dbmapper.macros._
 import com.github.njeuk.dbmapper.{TableAccess, DbAsync, DbAsyncConfig}
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.time.{Millis, Span}
 import org.scalatest.{BeforeAndAfter, Matchers, FlatSpec}
 import com.github.njeuk.dbmapper.RowDataExtension.RowDataExtensionImplicit
 import com.github.njeuk.dbmapper.SqlInterpolation._
@@ -34,6 +35,7 @@ import scala.concurrent.duration.Duration
   */
 
 class CrudSql extends FlatSpec with Matchers with ScalaFutures with BeforeAndAfter {
+  implicit override val patienceConfig = new PatienceConfig(scaled(Span(5000, Millis)), scaled(Span(15, Millis)))
   implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("0 ms"))
   val superHeroAccess = new SuperHeroAccess
 
