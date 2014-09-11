@@ -280,9 +280,6 @@ object DbAsync {
         if (pool.isEmpty || pool.get.isClosed) {
           val x = new ConnectionPool(getFactory(config), PoolConfiguration.Default)
           Await.result(x.connect, 5 seconds)
-          log.info("going to sleep")
-          Thread.sleep(1000)
-          log.info("just woken")
           pool = Some(x)
         }
       }

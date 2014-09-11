@@ -17,6 +17,7 @@
 package com.github.njeuk.dbmapper.examples
 
 import com.github.mauricio.async.db.postgresql.util.URLParser
+import com.github.mauricio.async.db.util.Log
 import com.github.njeuk.dbmapper.macros._
 import com.github.njeuk.dbmapper.{TableAccess, DbAsync, DbAsyncConfig}
 import org.scalatest.concurrent.ScalaFutures
@@ -88,7 +89,14 @@ class CrudSql extends FlatSpec with Matchers with ScalaFutures with BeforeAndAft
   }
 
   before {
-    DbAsync.execNonQuery("drop table if exists super_hero").futureValue
+    val logger = Log.getByName("testlog")
+    try {
+      DbAsync.execNonQuery("drop table if exists super_hero").futureValue
+    }
+    catch {
+      case e:Throwable => logger.error("failed", e)
+      case _ => logger.error("failed not throwable")
+    }
     DbAsync.execNonQuery("create table super_hero(super_hero_id serial, name text not null, wears_tights boolean not null, partner text null)").futureValue
     DbAsync.execNonQuery("insert into super_hero(super_hero_id, name, wears_tights) values " +
       "(1, 'Batman', 't')," +
