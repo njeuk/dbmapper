@@ -15,6 +15,8 @@ scalacOptions += "-feature"
 
 publishMavenStyle := false
 
+instrumentSettings
+
 bintrayPublishSettings
 
 bintray.Keys.repository in bintray.Keys.bintray := "sbt-plugins"
