@@ -1,16 +1,40 @@
 language: scala
+
 scala:
-  - 2.11.2
+- 2.11.2
+
 jdk:
-  - oraclejdk7
-  - openjdk7
+- oraclejdk7
+- openjdk7
+
 addons:
-  postgresql: "9.3"
+  postgresql: '9.3'
+
 services:
-  - postgresql
+- postgresql
+
+script:
+- sbt scoverage:test
+- sbt coveralls
+
 before_script:
-  - ./script/prepare_build.sh
+- ./script/prepare_build.sh
 
 notifications:
   email:
-    - nick@comdevelopment.com
+  - nick.edwards.uk@gmail.com
+
+env:
+  global:
+  - secure: jE+BdFwTc52+VRuUJB7ms4Gj/ieHadcSxmCP8pOLSF1+M+bBxJKXwPRo6ITIDtcFXlbxwDZJbRQmGPGAk8gMGhc1OR6qGkK8QOm7Ndu/081M8Nc7kO9paoIWkcYTkMwWw+qUxx6PDNhBekQGq3CBsD9kEwGPzj9huXflKzrPKT0=
+  - secure: aRc6llWhPLot0N6sdo7e5576ht/RpeIQD78VIk8FccQA04bw1Stp79Znz625CBlakLAc6bmVLA/rRUqBjYJmaXSUd4BzT9GXZ/MPh3VVqHhWuvvyJWkNRjd/H6DpDpkA0ZhWqqDgdiFwS0PFj842iQafXDMxUiK8m+MOpLV6X1o=
+  - secure: kUpumdsvgL3ReIH8H9ujduSfQcpcHwJLYAcnSqf7+cw0vH1V2OdYj2W8xYGcQYPy4pmnbsMll+a1gnU04Xi9hAh1o/EJ3aBQxIRxPyb0LZLMox0XChrRI2lPZVYivYvV/KrjH/2ZaJjtXon3qXKOaBU6JLWO8TuJJzD2tMUXMLI=
+  - secure: BOBHxZfY7Mstjg3zShSpCppNla39ShYhyEOkhn/Eq529iR7AShLEgfpzPmoTd9W/G7YNGG8W+C4Dtmo+ndNV8k53DuCEut2THFJChMI4kxnBTTcxGDlzMPJvOVgqh+GdzS4kb+xHp7AOs2+25qW9pxu9C3Vzz+qagHec8YNDoRI=
+  - secure: XUWKNjdZ3omZUIFEBmMS5I38lp6M6ybujeXtkDRBf03bNRoya83LK0fF9tYQTixz4n6dVMg9EpufS8l/ZGBPrreYD7zqe8V0DsemUzB2DvWDajaWeG1z8ZAOSoILVTXu71XWEgz13C0u6OUfQqg0A6xbX9VxnqADPwN1H/sPNuA=
+
+after_success:
+  - >
+      test "${TRAVIS_PULL_REQUEST}" = 'false' &&
+      test "${TRAVIS_JDK_VERSION}" = 'oraclejdk7' &&
+      sh "$TRAVIS_BUILD_DIR/.travis.credentials.sh" &&
+      sbt 'set version := version.value + "." + System.getenv("TRAVIS_BUILD_NUMBER")' publish

@@ -1,12 +1,27 @@
+import bintray.AttrMap
+import bintray._
+
 name := "dbmapper"
 
 organization := "com.github.njeuk"
 
-version := "2.0-SNAPSHOT"
+description := "Scala Asynchronous Postgres datamapper and data table gateway"
+
+version := "2.1"
 
 scalaVersion := "2.11.2"
 
 scalacOptions += "-feature"
+
+publishMavenStyle := false
+
+bintrayPublishSettings
+
+bintray.Keys.repository in bintray.Keys.bintray := "sbt-plugins"
+
+licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+
+bintray.Keys.bintrayOrganization in bintray.Keys.bintray := None
 
 libraryDependencies ++= Seq(
   "com.github.mauricio" %% "postgresql-async" % "0.2.14",
