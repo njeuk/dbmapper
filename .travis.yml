@@ -14,6 +14,7 @@ services:
 - postgresql
 
 script:
+- sbt 'project macros' test
 - sbt scoverage:test
 - sbt coveralls
 
@@ -37,4 +38,5 @@ after_success:
       test "${TRAVIS_PULL_REQUEST}" = 'false' &&
       test "${TRAVIS_JDK_VERSION}" = 'oraclejdk7' &&
       sh "$TRAVIS_BUILD_DIR/script/travis-ci-bintray-credentials.sh" &&
-      sbt 'set version := version.value + "." + System.getenv("TRAVIS_BUILD_NUMBER")' publish
+      sbt 'set version := version.value + "." + System.getenv("TRAVIS_BUILD_NUMBER")' publish &&
+      sbt 'project macros' 'set version := version.value + "." + System.getenv("TRAVIS_BUILD_NUMBER")' publish

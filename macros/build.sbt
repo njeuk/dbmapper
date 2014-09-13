@@ -2,11 +2,23 @@ name := "dbmapper-macros"
 
 organization := "com.github.njeuk"
 
-version := "2.0-SNAPSHOT"
+description := "Scala Macros used by dbmapper"
+
+version := "2.1"
 
 scalaVersion := "2.11.2"
 
 scalacOptions += "-feature"
+
+publishMavenStyle := true
+
+bintrayPublishSettings
+
+bintray.Keys.repository in bintray.Keys.bintray := "maven"
+
+licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+
+bintray.Keys.bintrayOrganization in bintray.Keys.bintray := None
 
 libraryDependencies ++= Seq(
   "com.github.mauricio" %% "postgresql-async" % "0.2.14",
