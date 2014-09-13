@@ -9,13 +9,13 @@ organization := "com.github.njeuk"
 
 description := "Scala Asynchronous Postgres datamapper and data table gateway"
 
-version := "2.1"
+version := "2.1.2"
 
 scalaVersion := "2.11.2"
 
 scalacOptions += "-feature"
 
-publishMavenStyle := false
+publishMavenStyle := true
 
 instrumentSettings
 
@@ -23,7 +23,7 @@ coverallsSettings
 
 bintrayPublishSettings
 
-bintray.Keys.repository in bintray.Keys.bintray := "sbt-plugins"
+bintray.Keys.repository in bintray.Keys.bintray := "maven"
 
 licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 

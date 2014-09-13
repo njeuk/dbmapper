@@ -49,7 +49,7 @@ class Queries extends FlatSpec with Matchers with ScalaFutures with BeforeAndAft
     * into the queries.  Here we initialise it with a jdbc url, there are other options to simply init
     * directly via PlayFramework application.config info.
     */
-  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("0 ms"))
+  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("500 ms"))
 
   "dbmapper" should "do simple queries simply" in {
     val allBooks = DbAsync.exec[Book]("select * from book order by book_id").futureValue

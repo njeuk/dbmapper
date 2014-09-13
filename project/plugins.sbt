@@ -15,13 +15,6 @@ resolvers += Classpaths.sbtPluginReleases
 
 resolvers += Classpaths.typesafeReleases
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "0.99.7.1")
+addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.99.7.1")
 
 addSbtPlugin("org.scoverage" %% "sbt-coveralls" % "0.99.0")
-
-addSbtPlugin("com.typesafe.sbt" % "sbt-pgp" % "0.8.3")
-
-// Add the following to have Git manage your build versions
-resolvers += "jgit-repo" at "http://download.eclipse.org/jgit/maven"
-
-addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.6.4")
