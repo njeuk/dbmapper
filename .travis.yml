@@ -14,8 +14,8 @@ services:
 - postgresql
 
 script:
-- sbt 'project macros' test
-- sbt scoverage:test
+- sbt 'set version := version.value + "." + System.getenv("TRAVIS_BUILD_NUMBER")' 'project macros' test
+- sbt 'set version := version.value + "." + System.getenv("TRAVIS_BUILD_NUMBER")' scoverage:test
 - sbt coveralls
 
 before_script:
