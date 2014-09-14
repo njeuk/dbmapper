@@ -21,6 +21,14 @@ instrumentSettings
 
 coverallsSettings
 
+site.settings
+
+site.includeScaladoc()
+
+ghpages.settings
+
+git.remoteRepo := "git@github.com:njeuk/dbmapper.git"
+
 bintrayPublishSettings
 
 bintray.Keys.repository in bintray.Keys.bintray := "maven"
@@ -35,12 +43,9 @@ libraryDependencies ++= Seq(
   "com.vividsolutions" % "jts" % "1.13",
   "com.typesafe" % "config" % "1.2.1",
   "ch.qos.logback" % "logback-classic" % "1.1.1",
+  "com.github.njeuk" %% "dbmapper-macros" % "2.4.2",
   "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 )
-
-lazy val macros = project.in(file("macros"))
-
-lazy val root = project.in(file(".")).dependsOn(macros)
 
 
 
