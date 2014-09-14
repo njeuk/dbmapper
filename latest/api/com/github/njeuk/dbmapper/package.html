@@ -1,0 +1,439 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>dbmapper - com.github.njeuk.dbmapper</title>
+          <meta name="description" content="dbmapper - com.github.njeuk.dbmapper" />
+          <meta name="keywords" content="dbmapper com.github.njeuk.dbmapper" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'com.github.njeuk.dbmapper.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.github">github</a>.<a href="../package.html" class="extype" name="com.github.njeuk">njeuk</a></p>
+        <h1>dbmapper</h1> <span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dbmapper</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.github.njeuk.dbmapper.ColumnName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ColumnNameextendsAnnotationwithStaticAnnotationwithProductwithSerializable"></a>
+      <a id="ColumnName:ColumnName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ColumnName.html"><span class="name">ColumnName</span></a><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.annotation.Annotation">Annotation</span> with <span class="extype" name="scala.annotation.StaticAnnotation">StaticAnnotation</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@ColumnNameextendsAnnotationwithStaticAnnotationwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Specifies that the column name that represents the annotated variable.</p><div class="fullcomment"><div class="comment cmt"><p>Specifies that the column name that represents the annotated variable.
+Used when the default Scala identifier to database column name conversion
+is not correct for your table</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the column name to use in the database for this variable</p><p>Example: </p><pre><span class="cmt">// the identifier 'name' will be mapped to the column 'tag' in the book table</span>
+
+<span class="kw">case</span> <span class="kw">class</span> Book (
+  bookId: <span class="std">Int</span>
+  \@(ColumnName <span class="ano">@field</span>)(<span class="lit">"tag"</span>) name: <span class="std">String</span>
+)</pre></dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.DbAsyncConfig" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DbAsyncConfigextendsProductwithSerializable"></a>
+      <a id="DbAsyncConfig:DbAsyncConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DbAsyncConfig.html"><span class="name">DbAsyncConfig</span></a><span class="params">(<span name="configuration">configuration: <span class="extype" name="com.github.mauricio.async.db.Configuration">Configuration</span></span>, <span name="logQueriesLongerThan">logQueriesLongerThan: <span class="extype" name="scala.concurrent.duration.Duration">Duration</span> = <span class="symbol">Duration(500, MILLISECONDS)</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@DbAsyncConfigextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Configuration information needed to access the database, and control logging.</p><div class="fullcomment"><div class="comment cmt"><p>Configuration information needed to access the database, and control logging.</p><p>Usually passed implicitly into dbmapper.</p><p>To setup a default implicit DbAsyncConfig add 'import com.github.njeuk.dbmapper.Implicits._'.</p><p>This will access the database connection settings from the application.conf properties in the style of the Play Framework.</p><p>Or you can specify the connection information directly, for example</p><pre><span class="kw">implicit</span> <span class="kw">val</span> dbAsyncConfig = DbAsyncConfig(URLParser.parse(<span class="lit">"jdbc:postgresql://localhost/dbmappersamples?user=test&password=test"</span>), Duration(<span class="lit">"0 ms"</span>))</pre></div><dl class="paramcmts block"><dt class="param">configuration</dt><dd class="cmt"><p>Configuration information used to setup the db connections</p></dd><dt class="param">logQueriesLongerThan</dt><dd class="cmt"><p>Any queries which take longer than the specified duration will be logged.
+                            Use to identify slow queries.
+</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@implicitNotFound</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;Cannot find an implicit DbAsyncConfig for the database connection.  Either 'import com.github.njeuk.dbmapper.Implicits._' to use settings from the application.conf file or create an implicit DbAsyncConfig in scope with the database connection information.&quot;">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.Identity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="IdentityextendsAnnotationwithStaticAnnotationwithProductwithSerializable"></a>
+      <a id="Identity:Identity"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Identity.html"><span class="name">Identity</span></a><span class="params">()</span><span class="result"> extends <span class="extype" name="scala.annotation.Annotation">Annotation</span> with <span class="extype" name="scala.annotation.StaticAnnotation">StaticAnnotation</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@IdentityextendsAnnotationwithStaticAnnotationwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Specifies that the value is the identifier for the entity.</p><div class="fullcomment"><div class="comment cmt"><p>Specifies that the value is the identifier for the entity.</p><p>Use when the Scala to Database identifier conversion routine isn't correct for your schema.</p><p>Example: </p><pre><span class="cmt">// the table 'book' in the database will have a primary key 'book_reference' in the database</span>
+
+<span class="kw">case</span> <span class="kw">class</span> Book (
+  @(Identity <span class="ano">@field</span>) bookReference: <span class="std">Int</span>
+  name: <span class="std">String</span>
+)</pre><p>Only one identity can be specified, compound keys are not supported.</p><p>The key must be an Int, although this restriction maybe lifted one day.</p><p>Really, we expect the schema to have integer surrogate keys on all tables, and
+although not text book database design, your life will be easier even if you don't
+use dbmapper...
+</p></div></div>
+    </li><li name="com.github.njeuk.dbmapper.SqlAndArgs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SqlAndArgsextendsProductwithSerializable"></a>
+      <a id="SqlAndArgs:SqlAndArgs"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="SqlAndArgs.html"><span class="name">SqlAndArgs</span></a><span class="params">(<span name="sql">sql: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@SqlAndArgsextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      
+    </li><li name="com.github.njeuk.dbmapper.TableAccess" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="TableAccess[T]extendsAnyRef"></a>
+      <a id="TableAccess[T]:TableAccess[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TableAccess.html"><span class="name">TableAccess</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@TableAccess[T]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">TableAccess lets you easily implement a 'Table Data Gateway' as per Fowler PoEAA</p><div class="fullcomment"><div class="comment cmt"><p>TableAccess lets you easily implement a 'Table Data Gateway' as per Fowler PoEAA</p><p>Example:</p><pre><span class="kw">class</span> SuperHeroAccess <span class="kw">extends</span> TableAccess[SuperHero](
+  () <span class="kw">=&gt;</span> DbCodeGenerator.codeToSql[SuperHero](),
+ (r) <span class="kw">=&gt;</span> DbCodeGenerator.rowToClass[SuperHero](r),
+ (u) <span class="kw">=&gt;</span> DbCodeGenerator.updateSql[SuperHero](u),
+ (i) <span class="kw">=&gt;</span> DbCodeGenerator.insertSql[SuperHero](i),
+ (i) <span class="kw">=&gt;</span> DbCodeGenerator.identityInsertSql[SuperHero](i),
+ (t, i) <span class="kw">=&gt;</span> t.copy(superHeroId = i)) {
+
+  <span class="kw">def</span> getViaName(name: <span class="std">String</span>)(<span class="kw">implicit</span> config: DbAsyncConfig): Future[<span class="std">Option</span>[SuperHero]] = {
+  DbAsync.execOneOrNone[SuperHero](q<span class="lit">"select * from super_hero where name = $name"</span>)
+}
+
+<span class="kw">case</span> <span class="kw">class</span> SuperHero(
+  superHeroId: <span class="std">Int</span> = <span class="num">0</span>,
+  name: <span class="std">String</span> = <span class="lit">""</span>,
+  wearsTights: <span class="std">Boolean</span> = <span class="kw">false</span>,
+  partner: <span class="std">Option</span>[<span class="std">String</span>] = <span class="std">None</span>
+)</pre><p>The above code creates a Table Data Gateway to access the SuperHeroes.</p><p>Each SuperHero is represented by a row in the table 'super_hero'.</p><p>The DbCodeGenerator is a Scala Macro based class which builds data mappers
+based on the names of the Entity object SuperHero.  The generated code can be replaced
+by hand crafted SQL where needed.</p><p>Once you have the SuperHeroAccess you can used standard CRUD activities on the SuperHeroes.
+For example:</p><pre>async {
+<span class="kw">val</span> hero = await( superHeroAccess.load(<span class="num">1</span>) )
+superHeroAccess.update( hero.copy(wearsTights = <span class="kw">true</span>) )
+}</pre><p>for a full example, see the sample in the test package of this project.</p><p>Using a Table Data Gateway is great for testing, it makes it very simple to mock out
+the database access.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the type of the Entity object the TableAccess is providing access to
+</p></dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TableNameextendsAnnotationwithStaticAnnotationwithProductwithSerializable"></a>
+      <a id="TableName:TableName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="TableName.html"><span class="name">TableName</span></a><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.annotation.Annotation">Annotation</span> with <span class="extype" name="scala.annotation.StaticAnnotation">StaticAnnotation</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@TableNameextendsAnnotationwithStaticAnnotationwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Specifies that the TableName that represents the Scala Class (or entity).</p><div class="fullcomment"><div class="comment cmt"><p>Specifies that the TableName that represents the Scala Class (or entity).
+Used when the default Scala identifier to database table name conversion
+is not correct for you schema.
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the table in the database</p><p>Example: </p><pre><span class="cmt">// the entity 'Book' will be named 'novel' in the database</span>
+
+\@TableName(<span class="lit">"novel"</span>)
+<span class="kw">case</span> <span class="kw">class</span> Book (
+  bookId: <span class="std">Int</span>
+  name: <span class="std">String</span>
+)</pre></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="com.github.njeuk.dbmapper.ColumnConversion" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ColumnConversion"></a>
+      <a id="ColumnConversion:ColumnConversion"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ColumnConversion$.html"><span class="name">ColumnConversion</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@ColumnConversion" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">ColumnConversion provides implicit conversions from the types in the RowData column
+from the database to the associated Scala type.</p><div class="fullcomment"><div class="comment cmt"><p>ColumnConversion provides implicit conversions from the types in the RowData column
+from the database to the associated Scala type.</p><p>In most cases RowData contains reasonable types for the various Postgres types.</p><p>They are documented in com.github.mauricio.async.db.postgresql.column.PostgreSQLColumnDecoderRegistry</p><p>If the type isn't know, for example the Postgres money type, then it will be represented as a string in the RowData column.
+If you wanted to support money as a type, and have it converted to a BigDecimal then you
+would need to implement that conversion here.  (It would be tricky to do, the Postgres money
+type converted to a string is quite variable depending on the currency)
+</p></div></div>
+    </li><li name="com.github.njeuk.dbmapper.Config" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Config"></a>
+      <a id="Config:Config"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Config$.html"><span class="name">Config</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@Config" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Access config information which may or may not exist.</p>
+    </li><li name="com.github.njeuk.dbmapper.DbAsync" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DbAsync"></a>
+      <a id="DbAsync:DbAsync"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DbAsync$.html"><span class="name">DbAsync</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@DbAsync" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">DbAsync is the main entry point for executing queries.</p><div class="fullcomment"><div class="comment cmt"><p>DbAsync is the main entry point for executing queries.</p><p>All queries are executed asynchronously</p><p>Example:</p><pre><span class="kw">import</span> scala.async.Async._
+<span class="kw">import</span> com.github.njeuk.dbmapper.Implicits._
+
+<span class="kw">implicit</span> <span class="kw">def</span> rowToBook: RowData <span class="kw">=&gt;</span> Book = (r) <span class="kw">=&gt;</span> DbCodeGenerator.rowToClass[Book](r)
+<span class="kw">implicit</span> <span class="kw">def</span> rowToAuthor: RowData <span class="kw">=&gt;</span> Author = (r) <span class="kw">=&gt;</span> DbCodeGenerator.rowToClass[Author](r)
+
+<span class="kw">def</span> getBooks(authorName: <span class="std">String</span>): Future[<span class="std">List</span>[Book]] {
+async {
+  <span class="kw">val</span> author = await(DbAsync.execOne[Author](q<span class="lit">"select * author where name = $authorName"</span>))
+  DbAsync.exec[Book](q<span class="lit">"select * from book where author_id = ${author.authorId}"</span>)
+}</pre><p>The public methods expect two implicit parameters:
+param f This is a function to convert from the returned database row, of type RowData to the entity object T.
+         DbCodeGenerator.rowToClass will generate a function at compile time using a Scala Macros.
+         Or you can hand craft the function.
+param config This contains the configuration used by dbmapper to connect to the database, and details of what to log.
+              import com.github.njeuk.dbmapper.Implicits._ will place a default config in scope, which reads the db
+              connection string from the application.conf settings.  Or you can create your own specific settings
+              as can be seen in the sample's attached to this project
+</p></div></div>
+    </li><li name="com.github.njeuk.dbmapper.DbAsyncConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DbAsyncConfig"></a>
+      <a id="DbAsyncConfig:DbAsyncConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DbAsyncConfig$.html"><span class="name">DbAsyncConfig</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@DbAsyncConfig" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      
+    </li><li name="com.github.njeuk.dbmapper.Implicits" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Implicits"></a>
+      <a id="Implicits:Implicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Implicits$.html"><span class="name">Implicits</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@Implicits" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Implicits provides a simple way to bring various implicit information that
+dbmapper needs into scope.</p>
+    </li><li name="com.github.njeuk.dbmapper.RowDataExtension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RowDataExtension"></a>
+      <a id="RowDataExtension:RowDataExtension"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RowDataExtension$.html"><span class="name">RowDataExtension</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@RowDataExtension" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">RowDataExtension is used by the macro generated sql code.</p><div class="fullcomment"><div class="comment cmt"><p>RowDataExtension is used by the macro generated sql code.</p><p>It allows the generated code to easily extract values from the RowData columns.</p><p>If a Option is expected then we check for a null value in the column before lifting it into the Option.
+</p></div></div>
+    </li><li name="com.github.njeuk.dbmapper.RowDataStandardImplicitConversions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RowDataStandardImplicitConversions"></a>
+      <a id="RowDataStandardImplicitConversions:RowDataStandardImplicitConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RowDataStandardImplicitConversions$.html"><span class="name">RowDataStandardImplicitConversions</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@RowDataStandardImplicitConversions" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">RowDataStandardImplicitConversions provides convenience conversions to extract
+data from RowData.</p><div class="fullcomment"><div class="comment cmt"><p>RowDataStandardImplicitConversions provides convenience conversions to extract
+data from RowData.</p><p>Example:</p><pre><span class="kw">import</span> com.github.njeuk.dbmapper.RowDataStandardImplicitConversions._
+
+<span class="cmt">// this will use the implicit rowDataToString function</span>
+<span class="kw">val</span> titles = DbAsync.exec[<span class="std">String</span>](<span class="lit">"select title from book order by book_id"</span>)
+
+<span class="cmt">// or you could just specify the conversion directly</span>
+<span class="kw">val</span> titles = DbAsync.exec[<span class="std">String</span>](<span class="lit">"select title from book order by book_id"</span>)(r <span class="kw">=&gt;</span> r(<span class="num">0</span>).toString, dbAsyncConfig)</pre></div></div>
+    </li><li name="com.github.njeuk.dbmapper.SqlInterpolation" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="SqlInterpolation"></a>
+      <a id="SqlInterpolation:SqlInterpolation"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SqlInterpolation$.html"><span class="name">SqlInterpolation</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.package@SqlInterpolation" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Provides query interpolation, similar to standard Scala string interpolation.</p><div class="fullcomment"><div class="comment cmt"><p>Provides query interpolation, similar to standard Scala string interpolation.</p><p>Example</p><pre><span class="kw">val</span> name = <span class="lit">"Bruce"</span>
+<span class="kw">val</span> bruce = DbAsync.exec[Person](q<span class="lit">"select * from person where name = $name"</span>)</pre><p>Lists are supported, as in:</p><pre><span class="kw">val</span> names = <span class="std">List</span>(<span class="lit">"Bruce"</span>, <span class="lit">"Murray"</span>, <span class="lit">"Charlene"</span>)
+<span class="kw">val</span> australians = DbAsync.exec[Person](q<span class="lit">"select * from person where name in ($names)"</span>)</pre><p>To perform string interpolation within the query, prefix the $ with a ' as in:</p><p>Lists are supported, as in:</p><pre><span class="kw">val</span> table = <span class="lit">"person"</span>
+<span class="kw">val</span> people = DbAsync.exec[Person](q<span class="lit">"select * from '$table"</span>)</pre><p>For longer queries you can join the strings with +, as in:</p><pre><span class="kw">val</span> newZealanders = DbAsync.exec[Person](q<span class="lit">"select * from person "</span> +
+q<span class="lit">"where smarter = 't' and "</span> +
+q<span class="lit">"good_looking = 't'"</span>);</pre></div></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

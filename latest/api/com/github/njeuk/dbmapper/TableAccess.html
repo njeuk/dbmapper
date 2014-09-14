@@ -1,0 +1,779 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>TableAccess - com.github.njeuk.dbmapper.TableAccess</title>
+          <meta name="description" content="TableAccess - com.github.njeuk.dbmapper.TableAccess" />
+          <meta name="keywords" content="TableAccess com.github.njeuk.dbmapper.TableAccess" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'com.github.njeuk.dbmapper.TableAccess';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.github">github</a>.<a href="../package.html" class="extype" name="com.github.njeuk">njeuk</a>.<a href="package.html" class="extype" name="com.github.njeuk.dbmapper">dbmapper</a></p>
+        <h1>TableAccess</h1> <span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TableAccess</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>TableAccess lets you easily implement a 'Table Data Gateway' as per Fowler PoEAA</p><p>Example:</p><pre><span class="kw">class</span> SuperHeroAccess <span class="kw">extends</span> TableAccess[SuperHero](
+  () <span class="kw">=&gt;</span> DbCodeGenerator.codeToSql[SuperHero](),
+ (r) <span class="kw">=&gt;</span> DbCodeGenerator.rowToClass[SuperHero](r),
+ (u) <span class="kw">=&gt;</span> DbCodeGenerator.updateSql[SuperHero](u),
+ (i) <span class="kw">=&gt;</span> DbCodeGenerator.insertSql[SuperHero](i),
+ (i) <span class="kw">=&gt;</span> DbCodeGenerator.identityInsertSql[SuperHero](i),
+ (t, i) <span class="kw">=&gt;</span> t.copy(superHeroId = i)) {
+
+  <span class="kw">def</span> getViaName(name: <span class="std">String</span>)(<span class="kw">implicit</span> config: DbAsyncConfig): Future[<span class="std">Option</span>[SuperHero]] = {
+  DbAsync.execOneOrNone[SuperHero](q<span class="lit">"select * from super_hero where name = $name"</span>)
+}
+
+<span class="kw">case</span> <span class="kw">class</span> SuperHero(
+  superHeroId: <span class="std">Int</span> = <span class="num">0</span>,
+  name: <span class="std">String</span> = <span class="lit">""</span>,
+  wearsTights: <span class="std">Boolean</span> = <span class="kw">false</span>,
+  partner: <span class="std">Option</span>[<span class="std">String</span>] = <span class="std">None</span>
+)</pre><p>The above code creates a Table Data Gateway to access the SuperHeroes.</p><p>Each SuperHero is represented by a row in the table 'super_hero'.</p><p>The DbCodeGenerator is a Scala Macro based class which builds data mappers
+based on the names of the Entity object SuperHero.  The generated code can be replaced
+by hand crafted SQL where needed.</p><p>Once you have the SuperHeroAccess you can used standard CRUD activities on the SuperHeroes.
+For example:</p><pre>async {
+<span class="kw">val</span> hero = await( superHeroAccess.load(<span class="num">1</span>) )
+superHeroAccess.update( hero.copy(wearsTights = <span class="kw">true</span>) )
+}</pre><p>for a full example, see the sample in the test package of this project.</p><p>Using a Table Data Gateway is great for testing, it makes it very simple to mock out
+the database access.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the type of the Entity object the TableAccess is providing access to
+</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="com.github.njeuk.dbmapper.TableAccess"><span>TableAccess</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.github.njeuk.dbmapper.TableAccess#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(codeToSql:()=&gt;com.github.njeuk.dbmapper.macros.CodeToSql,rowToClass:com.github.mauricio.async.db.RowData=&gt;T,updateSql:T=&gt;(String,Seq[Any]),insertSql:T=&gt;(String,Seq[Any]),identityInsertSql:T=&gt;(String,Seq[Any]),copy:(T,Int)=&gt;T):com.github.njeuk.dbmapper.TableAccess[T]"></a>
+      <a id="&lt;init&gt;:TableAccess[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TableAccess</span><span class="params">(<span name="codeToSql">codeToSql: () ⇒ <span class="extype" name="com.github.njeuk.dbmapper.macros.CodeToSql">CodeToSql</span></span>, <span name="rowToClass">rowToClass: (<span class="extype" name="com.github.mauricio.async.db.RowData">RowData</span>) ⇒ <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>, <span name="updateSql">updateSql: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>) ⇒ (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>])</span>, <span name="insertSql">insertSql: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>) ⇒ (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>])</span>, <span name="identityInsertSql">identityInsertSql: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>) ⇒ (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>])</span>, <span name="copy">copy: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>, <span class="extype" name="scala.Int">Int</span>) ⇒ <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@&lt;init&gt;(codeToSql:()=&gt;com.github.njeuk.dbmapper.macros.CodeToSql,rowToClass:com.github.mauricio.async.db.RowData=&gt;T,updateSql:T=&gt;(String,Seq[Any]),insertSql:T=&gt;(String,Seq[Any]),identityInsertSql:T=&gt;(String,Seq[Any]),copy:(T,Int)=&gt;T):com.github.njeuk.dbmapper.TableAccess[T]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">codeToSql</dt><dd class="cmt"><p>an instance of the CodeToSql class, providing information about T to guide the SQL construction</p></dd><dt class="param">rowToClass</dt><dd class="cmt"><p>a data mapper to convert the RowData to the entity object (T)</p></dd><dt class="param">updateSql</dt><dd class="cmt"><p>the sql used for updating the table</p></dd><dt class="param">insertSql</dt><dd class="cmt"><p>the sql used for inserting new rows in the table, using the default identity (usually a primary key) (usually a generated from a postgres Sequence)</p></dd><dt class="param">identityInsertSql</dt><dd class="cmt"><p>the sql needed to insert rows when the inserted object is providing the identity</p></dd><dt class="param">copy</dt><dd class="cmt"><p>a function to produce a copy of the Entity (T) with the identity replaced</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@##():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#codeToSql" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="codeToSql:()=&gt;com.github.njeuk.dbmapper.macros.CodeToSql"></a>
+      <a id="codeToSql:()⇒CodeToSql"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">codeToSql</span><span class="result">: () ⇒ <span class="extype" name="com.github.njeuk.dbmapper.macros.CodeToSql">CodeToSql</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@codeToSql:()=&gt;com.github.njeuk.dbmapper.macros.CodeToSql" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">an instance of the CodeToSql class, providing information about T to guide the SQL construction</p>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#copy" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="copy:(T,Int)=&gt;T"></a>
+      <a id="copy:(T,Int)⇒T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">copy</span><span class="result">: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>, <span class="extype" name="scala.Int">Int</span>) ⇒ <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@copy:(T,Int)=&gt;T" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a function to produce a copy of the Entity (T) with the identity replaced</p>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#delete" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="delete(id:Int)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[com.github.mauricio.async.db.QueryResult]"></a>
+      <a id="delete(Int)(DbAsyncConfig):Future[QueryResult]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">delete</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="config">config: <a href="DbAsyncConfig.html" class="extype" name="com.github.njeuk.dbmapper.DbAsyncConfig">DbAsyncConfig</a></span>)</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="com.github.mauricio.async.db.QueryResult">QueryResult</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@delete(id:Int)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[com.github.mauricio.async.db.QueryResult]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Deletes the entity with the specified id</p><div class="fullcomment"><div class="comment cmt"><p>Deletes the entity with the specified id</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the identity of the row containing the Entity (T)</p></dd><dt class="param">config</dt><dd class="cmt"><p>implicit configuration to use</p></dd><dt>returns</dt><dd class="cmt"><p>returns a QueryResult, but really it is expected the result is used just
+        to ensure the delete has been performed before continuing</p><p>Example:</p><pre>async {
+await(superHeroAccess.delete(<span class="num">1</span>))
+<span class="cmt">// ignoring return, but code after this point will be continued once delete is performed</span>
+}</pre></dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get(id:Int)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[Option[T]]"></a>
+      <a id="get(Int)(DbAsyncConfig):Future[Option[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="config">config: <a href="DbAsyncConfig.html" class="extype" name="com.github.njeuk.dbmapper.DbAsyncConfig">DbAsyncConfig</a></span>)</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@get(id:Int)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[Option[T]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets the Entity (T) with the specified id.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the Entity (T) with the specified id.  If it doesn't exist None is returned.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the identity of the row containing the Entity (T)</p></dd><dt class="param">config</dt><dd class="cmt"><p>implicit configuration to use</p></dd><dt>returns</dt><dd class="cmt"><p>returns Some(Entity) or None if it doesn't exist</p><p>Example:</p><pre>async {
+<span class="kw">val</span> hero = await(superHeroAccess.get(<span class="num">2</span>))
+println hero.get.name
+}</pre></dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#identityInsert" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="identityInsert(u:T)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]"></a>
+      <a id="identityInsert(T)(DbAsyncConfig):Future[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">identityInsert</span><span class="params">(<span name="u">u: <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="config">config: <a href="DbAsyncConfig.html" class="extype" name="com.github.njeuk.dbmapper.DbAsyncConfig">DbAsyncConfig</a></span>)</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@identityInsert(u:T)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Inserts the entity into the database, where a specific value for the identity column is provided.</p><div class="fullcomment"><div class="comment cmt"><p>Inserts the entity into the database, where a specific value for the identity column is provided.
+</p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>the entity to be updated, the id column must not exist in the database yet</p></dd><dt class="param">config</dt><dd class="cmt"><p>info for configuration</p></dd><dt>returns</dt><dd class="cmt"><p>the inserted entity. The inserted row isn't retrieved from the
+        database, so any db calculated values won't have changed</p><p>Example:</p><pre><span class="kw">val</span> wonderWoman = SuperHero(<span class="num">666</span>, <span class="lit">"Wonder Woman"</span>, <span class="kw">true</span>)
+superHeroAccess.identityInsert(wonderWoman)</pre></dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#identityInsertSql" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="identityInsertSql:T=&gt;(String,Seq[Any])"></a>
+      <a id="identityInsertSql:(T)⇒(String,Seq[Any])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">identityInsertSql</span><span class="result">: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>) ⇒ (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>])</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@identityInsertSql:T=&gt;(String,Seq[Any])" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the sql needed to insert rows when the inserted object is providing the identity</p>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#insert" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="insert(u:T)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]"></a>
+      <a id="insert(T)(DbAsyncConfig):Future[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">insert</span><span class="params">(<span name="u">u: <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="config">config: <a href="DbAsyncConfig.html" class="extype" name="com.github.njeuk.dbmapper.DbAsyncConfig">DbAsyncConfig</a></span>)</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@insert(u:T)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Inserts the entity into the database.</p><div class="fullcomment"><div class="comment cmt"><p>Inserts the entity into the database.  This uses the database default for the id
+column, which is typically auto generated from some Postgres Sequence.
+</p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>the entity to be updated, the value in the id is ignored</p></dd><dt class="param">config</dt><dd class="cmt"><p>the implicit configuration info</p></dd><dt>returns</dt><dd class="cmt"><p>the entity with its new id.  The inserted row isn't retrieved from the
+        database, so any db calculated values (apart from the identity) won't be changed</p><p>Example:</p><pre>async {
+<span class="kw">val</span> catwoman = SuperHero(<span class="num">0</span>, <span class="lit">"Catwoman"</span>)
+<span class="kw">val</span> insertedCatwoman = await( superHeroAccess.insert(catwoman) )
+<span class="kw">val</span> loadedCatwoman = await( superHeroAccess.load(insertedCatwoman.superHeroId ))
+}</pre></dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#insertSql" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="insertSql:T=&gt;(String,Seq[Any])"></a>
+      <a id="insertSql:(T)⇒(String,Seq[Any])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">insertSql</span><span class="result">: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>) ⇒ (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>])</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@insertSql:T=&gt;(String,Seq[Any])" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the sql used for inserting new rows in the table, using the default identity (usually a primary key) (usually a generated from a postgres Sequence)</p>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#load" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="load(id:Int)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]"></a>
+      <a id="load(Int)(DbAsyncConfig):Future[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">load</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="config">config: <a href="DbAsyncConfig.html" class="extype" name="com.github.njeuk.dbmapper.DbAsyncConfig">DbAsyncConfig</a></span>)</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@load(id:Int)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Loads the Entity from the underlying table.</p><div class="fullcomment"><div class="comment cmt"><p>Loads the Entity from the underlying table.  The entity is expected to exist, if not
+throws an exception.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the identity of the row containing the Entity (T)</p></dd><dt class="param">config</dt><dd class="cmt"><p>implicit configuration to use</p></dd><dt>returns</dt><dd class="cmt"><p>the Entity</p><p>Example:</p><pre>async {
+<span class="kw">val</span> hero = await(superHeroAccess.load(<span class="num">2</span>))
+println hero.name
+
+<span class="kw">val</span> BANG = await(superHeroAccess.load(-<span class="num">123</span>)) <span class="cmt">// would throw exception assuming not -123 exists!</span>
+}</pre></dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#rowDataToTypeImplicit" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rowDataToTypeImplicit(r:com.github.mauricio.async.db.RowData):T"></a>
+      <a id="rowDataToTypeImplicit(RowData):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rowDataToTypeImplicit</span><span class="params">(<span name="r">r: <span class="extype" name="com.github.mauricio.async.db.RowData">RowData</span></span>)</span><span class="result">: <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@rowDataToTypeImplicit(r:com.github.mauricio.async.db.RowData):T" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#rowToClass" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rowToClass:com.github.mauricio.async.db.RowData=&gt;T"></a>
+      <a id="rowToClass:(RowData)⇒T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rowToClass</span><span class="result">: (<span class="extype" name="com.github.mauricio.async.db.RowData">RowData</span>) ⇒ <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@rowToClass:com.github.mauricio.async.db.RowData=&gt;T" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">a data mapper to convert the RowData to the entity object (T)</p>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@toString():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#update" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="update(u:T)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]"></a>
+      <a id="update(T)(DbAsyncConfig):Future[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">update</span><span class="params">(<span name="u">u: <span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="config">config: <a href="DbAsyncConfig.html" class="extype" name="com.github.njeuk.dbmapper.DbAsyncConfig">DbAsyncConfig</a></span>)</span><span class="result">: <span class="extype" name="scala.concurrent.Future">Future</span>[<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@update(u:T)(implicitconfig:com.github.njeuk.dbmapper.DbAsyncConfig):scala.concurrent.Future[T]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Updates the specified entity
+</p><div class="fullcomment"><div class="comment cmt"><p>Updates the specified entity
+</p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>the entity to be updated</p></dd><dt class="param">config</dt><dd class="cmt"><p>implicit configuration info</p></dd><dt>returns</dt><dd class="cmt"><p>the update entity, this isn't retrieved from the database, so any db calculated
+        columns won't have been updated</p><p>Example:</p><pre>async {
+<span class="kw">val</span> hero = await( superHeroAccess.load(<span class="num">1</span>) )
+superHeroAccess.update( hero.copy(wearsTights = <span class="kw">true</span>) )
+}</pre></dd></dl></div>
+    </li><li name="com.github.njeuk.dbmapper.TableAccess#updateSql" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="updateSql:T=&gt;(String,Seq[Any])"></a>
+      <a id="updateSql:(T)⇒(String,Seq[Any])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">updateSql</span><span class="result">: (<span class="extype" name="com.github.njeuk.dbmapper.TableAccess.T">T</span>) ⇒ (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>])</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@updateSql:T=&gt;(String,Seq[Any])" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">the sql used for updating the table</p>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.github.njeuk.dbmapper.TableAccess@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
