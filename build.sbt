@@ -29,7 +29,7 @@ ghpages.settings
 
 git.remoteRepo := "git@github.com:njeuk/dbmapper.git"
 
-bintrayPublishSettings
+seq(bintraySettings:_*)
 
 bintray.Keys.repository in bintray.Keys.bintray := "maven"
 
