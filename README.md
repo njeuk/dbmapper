@@ -203,13 +203,33 @@ async {
   await(superHeroAccess.update(batman.copy(partner = Some("Robin"))))
   
   // load updated Batman,  note await in the line above stalls this code until the update has completed 
-  val batmanWithRobin = superHeroAccess.load(1).futureValue
+  val batmanWithRobin = superHeroAccess.load(1)
   batmanWithRobin.partner should be (Some("Robin"))
 }
 
 ...
 
 ```
+### Name mapping conventions / db schema assumptions
+
+dbmapper needs to map from the scala identifier to the database identifier.  To do this it makes
+certain assumptions about the identifier names.  These assumptions can be changed via attributes 
+in your code, see the example [CrudSqlWithCustomNameMapping](https://github.com/njeuk/dbmapper/blob/master/src/test/scala/com/github/njeuk/dbmapper/examples/CrudSqlWithCustomNameMapping.scala)
+                                 
+The default assumptions are:
+
+Scala identifiers are in [camelCase](http://en.wikipedia.org/wiki/CamelCase) or PascalCase, these are represented in the database
+by identifiers in lowercase [snake_case](http://en.wikipedia.org/wiki/Snake_case).
+
+The table name is not pluralised, but is a straight conversion from the class name.
+ 
+Each table has an Integer [surrogate key](http://en.wikipedia.org/wiki/Surrogate_key).  
+The surrogate key is named <class>Id (e.g. bookId) in Scala and <table>_id (e.g. book_id) in the database.
+
+If a variable is defined as an Option[] then the database will convert null column values to None.
+Otherwise null column values will cause an exception.
+
+See [ScalaToSqlNameConversion](https://github.com/njeuk/dbmapper-macros/blob/master/src/main/scala/com/github/njeuk/dbmapper/macros/ScalaToSqlNameConversion.scala)
 
 ### DB Connections
 dbmapper needs to pass the data base connection information on to postgresql-async to access the database.
@@ -240,20 +260,52 @@ You can also construct a DbAsyncConfig directly:
 
 ### Code Generators
 
-dbmapper uses Scala Macros to build code to map between the database row data and the scala class used to represent the row.
- 
+dbmapper uses Scala Macros to build code to map between the database row data and the scala class.
 
-### Name mapping conventions
+The Macros run at compile time, of course, and exist in the project [dbmapper-macros](https://github.com/njeuk/dbmapper-macros).
+The project is split to help with testing of dbmapper.  The macros project is a dbmapper dependency, and thus automatically obtained from JCenter, you don't need to be aware of it.
+
+If you have specific requirements, you could handcraft the code the macros generate.
+
+See [DbCodeGenerator](https://github.com/njeuk/dbmapper-macros/blob/master/src/main/scala/com/github/njeuk/dbmapper/macros/DbCodeGenerator.scala#L164)
 
 ### Query interpolation
 
+To make SQL queries simpler dbmapper provide query interpolation.
+
+This is like string interpolation, but the embed variable references are converted to argument for the database call.
+
+This provides a clean coding experience which is also protected from SQL Injection.
+The string is prefixed with a 'q' to signal Query Interpolation.
+
+For example:
+
+```scala
+val name = "Bruce"
+val bruce = DbAsync.exec[Person](q"select * from person where name = $name")
+```
+
+Lists and direct string interpolation are also supported, see the [scaladocs](http://njeuk.github.io/dbmapper/latest/api/#com.github.njeuk.dbmapper.SqlInterpolation$) for more examples.
+
 ### Data access objects / Table Data Gateway
 
-### Mocking
+Using the Macro generated code and the table mappings, you can easily build a Data Access object.
+The full example of this is shown in [CrudSql.scala](https://github.com/njeuk/dbmapper/blob/master/src/test/scala/com/github/njeuk/dbmapper/examples/CrudSql.scala)
 
 ### Logging
 
+By default, dbmapper will log any query that takes longer than 500ms.  This is controlled via a setting in DbAsyncConfig.
+Setting this to zero will cause dbmapper to log all SQL that it executes with the execution lapsed time.
+
 ### Errors you might get
+
+A common compile error with dbmapper is:
+
+   `not found: type CodeToSql
+     () => DbCodeGenerator.codeToSql[T]()`
+ 
+this because need:
+     ```import com.github.njeuk.dbmapper.macros.CodeToSql```
 
 Limitations
 -----------
@@ -279,7 +331,6 @@ The code isn't really massively idiomatic functional Scala.  On the plus side, t
 ### Only built for Scala 2.11.2 and above
 Haven't built or tested for other older Scala versions.  It probably will work, but no idea, I don't use those version any more.
 
-### Natural keys
 
 License
 -------
