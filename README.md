@@ -224,7 +224,7 @@ by identifiers in lowercase [snake_case](http://en.wikipedia.org/wiki/Snake_case
 The table name is not pluralised, but is a straight conversion from the class name.
  
 Each table has an Integer [surrogate key](http://en.wikipedia.org/wiki/Surrogate_key).  
-The surrogate key is named <class>Id (e.g. bookId) in Scala and <table>_id (e.g. book_id) in the database.
+The surrogate key is named \<class\>Id (e.g. bookId) in Scala and \<table\>_id (e.g. book_id) in the database.
 
 If a variable is defined as an Option[] then the database will convert null column values to None.
 Otherwise null column values will cause an exception.
