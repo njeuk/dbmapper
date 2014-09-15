@@ -19,7 +19,7 @@ Not Features
 Queries with interpolation for query arguments
 ----------------------------------------------
 
-'''scala
+```scala
   
   // Scala class that maps to the book table, with columns to match the class members
   case class Book(
@@ -40,12 +40,12 @@ Queries with interpolation for query arguments
   // returns Future\[Option\[\]\]     
   val maybeOneBook: Future\[Option\[Book\]\] = DbAsync.execOneOrNone\[Book\](q"select * from book where book_id = -123")
       
-'''
+```
 
 CRUD via Data Access object (Data Table Gateway)
 ------------------------------------------------
 
-'''scala
+```scala
 
 case class SuperHero(
   superHeroId: Int = 0,
@@ -76,23 +76,25 @@ superHeroAccess.insert(catwoman)
 // delete Batman
 superHeroAccess.delete(1)
 
-'''
+```
 
 Full Code Samples
 -----------------
 
 [Executable Code Samples](https://github.com/njeuk/dbmapper/tree/master/src/test/scala/com/github/njeuk/dbmapper/examples)
+
 The default connection string is for the samples is:
+
 `jdbc:postgresql://localhost/dbmappersamples?user=postgres&password=`
 
-Either change the connection string for your environment, or create a database named *dbmappersamples*, accessible by the postgres.
+Either change the connection string for your environment, or create a database named *dbmappersamples*, accessible by the postgres user with no password.
 
 Full ScalaDocs
 --------------
 
-[ScalaDocs](njeuk.github.io/dbmapper/latest/api) on GitHub
+[ScalaDocs](https://njeuk.github.io/dbmapper/latest/api) on GitHub
 
-[Best Starting Point](njeuk.github.io/dbmapper/latest/api/#com.github.njeuk.dbmapper.DbAsync$)
+[Best Starting Point](https://njeuk.github.io/dbmapper/latest/api/#com.github.njeuk.dbmapper.DbAsync$)
 
 
 Dependencies
@@ -102,9 +104,9 @@ The artifacts are hosted in JCenter on Bintray.
 
 If you are using SBT >= 0.13.5 then the Bintray resolver is already known, just add the following to your build.sbt:
  
-'''
+```
 "com.github.njeuk" %% "dbmapper" % "2.3.19"
-'''
+```
 
 If you are using SBT < 0.13.5, then you need to add a resolver for BinTray, see here: https://github.com/softprops/bintray-sbt
 
