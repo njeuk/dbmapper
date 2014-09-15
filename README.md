@@ -111,6 +111,176 @@ If you are using SBT >= 0.13.5 then the Bintray resolver is already known, just 
 
 If you are using SBT < 0.13.5, then you need to add a resolver for BinTray, see here: https://github.com/softprops/bintray-sbt
 
+Quick start
+----------
+
+1. Place the dependency in you libDependencies of build.sbt  
+
+```
+    libraryDependencies ++= Seq(
+      ...
+      "org.scalatestplus" % "play_2.11" % "1.1.0" % "test",
+      "com.github.njeuk" %% "dbmapper" % "2.3.19"
+    )
+```
+
+2. Create a Case Class to represent the table in the database.
+  For example, assume there is a table called books:
+  
+```sql
+  create table book(
+    book_id serial, 
+    title text not null, 
+    retail_price numeric(10,2) not null, 
+    publish_date date not null)
+```
+
+The corresponding Case Class would look like:
+ 
+ ```scala 
+  case class Book(
+    bookId: Int,
+    title: String,
+    retailPrice: BigDecimal,
+    publishDate: LocalDate)
+```
+
+What happens if you don't like the name mapping conventions between from Scala and the DB?
+  
+ You can override them with @attributes, see [this sample](https://github.com/njeuk/dbmapper/blob/master/src/test/scala/com/github/njeuk/dbmapper/examples/CrudSqlWithCustomNameMapping.scala)
+  
+3. Ensure that the implicit object DbAsyncConfig is in scope.  
+
+You can setup the config explicitly like this:
+
+```implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("500 ms"))```
+
+Or more simply just import:
+
+```import com.github.njeuk.dbmapper.Implicits._```
+
+which will create a config that pulls [PlayFramework style database settings](https://www.playframework.com/documentation/2.3.x/SettingsJDBC) from your application.conf details.  We only look at username/password/url.
+
+4. Ensure there is an implicit function in scope to map a the database rowData to the Scala object.
+ 
+```implicit def rowToBook: RowData => Book = (r) => DbCodeGenerator.rowToClass[Book](r)```
+
+This one will generate the code based on the names in the Book class.
+
+5. Write your queries:
+
+```
+async {
+  val allBooks = await( DbAsync.exec[Book]("select * from book") )
+  val titles = allBooks.map(b => b.title)
+  println(s"Title where $titles")
+}
+```
+
+How to use
+----------
+
+### Async code
+dbmapper is asynchronous.  We have used this codebase to implement completely asynchronous PlayFramework websites.
+We find using the Scala Async/Await mechanism the most straight forward to deal with Future results.
+
+For example:
+
+```scala
+import scala.async.Async._
+import scala.concurrent.ExecutionContext.Implicits.global
+import com.github.njeuk.dbmapper.Implicits._
+
+...
+
+async {
+  val batmanFuture = superHeroAccess.load(1)
+  
+  val batman = await(batmanFuture)
+  // code here continues after batmanFuture succeeds
+    
+  // now we have found batman, update his partner
+  await(superHeroAccess.update(batman.copy(partner = Some("Robin"))))
+  
+  // load updated Batman,  note await in the line above stalls this code until the update has completed 
+  val batmanWithRobin = superHeroAccess.load(1).futureValue
+  batmanWithRobin.partner should be (Some("Robin"))
+}
+
+...
+
+```
+
+### DB Connections
+dbmapper needs to pass the data base connection information on to postgresql-async to access the database.
+
+All the of the public dbmapper functions take an implicit arguments of type DbAsyncConfig.  
+This contains the connection information and details about what logging is wanted.
+
+So prior to calling into dbmapper there needs to be a DbAsyncConfig in scope.
+
+You have a number of ways to do this.
+
+The easiest method is to:
+```import com.github.njeuk.dbmapper.Implicits._```
+
+This uses a DbAsyncConfig which gets the connection information from config file settings / jvm properties using [com.typesafe.config](https://github.com/typesafehub/config).
+DbAsyncConfig expects PlayFramework style db configurations.
+Read their documents for the details of locations looked, some like this in application.conf works:
+
+```
+db.default.url="jdbc:postgresql://some-domain-name-here/some-db-name-here"
+db.default.user=your-db-user-here
+db.default.password=your-password-here
+```
+
+You can also construct a DbAsyncConfig directly:
+
+```implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("500 ms"))```
+
+### Code Generators
+
+dbmapper uses Scala Macros to build code to map between the database row data and the scala class used to represent the row.
+ 
+
+### Name mapping conventions
+
+### Query interpolation
+
+### Data access objects / Table Data Gateway
+
+### Mocking
+
+### Logging
+
+### Errors you might get
+
+Limitations
+-----------
+
+### Postgresql only.  
+Extending to MySql would be simple, but not implemented because I have no need for it.  (You should probably think very
+ carefully about implementing a new project in MySql anyway ;-) )
+   
+Sql Server and Oracle would be a lot harder, you need a replacement for [postgresql-async](https://github.com/mauricio/postgresql-async), not impossible,
+just not a straightforward job to do.
+
+### Hard coded identifier mappings.  
+The code generation assumes that you use camelCase in Code and snake_case in the database.  It also assumes that table names 
+are not pluralized unlike Rails ActiveRecord.  
+
+You can override theses assumptions on a case by case basis using @attributes. But if you do this a lot your code is going to look pretty horrendous.  
+ Maybe we could pass the algorithm in to the code generators and evaluate them using [Twitters Eval](https://github.com/twitter/util/blob/master/util-eval/src/main/scala/com/twitter/util/Eval.scala).
+ Not sure how bad this will impact compile speeds.
+
+### Code looks more like Java than Haskell 
+The code isn't really massively idiomatic functional Scala.  On the plus side, there are no loops in the code :-)
+
+### Only built for Scala 2.11.2 and above
+Haven't built or tested for other older Scala versions.  It probably will work, but no idea, I don't use those version any more.
+
+### Natural keys
+
 License
 -------
 This project is freely available under the Apache 2 licence, have fun....
