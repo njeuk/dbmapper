@@ -29,16 +29,16 @@ Queries with interpolation for query arguments
     publishDate: LocalDate)
     
   // mapping function from table row to Book class, auto generated at compile time by Scala Macro  
-  implicit def rowToBook: RowData => Book = (r) => DbCodeGenerator.rowToClass\[Book\](r)
+  implicit def rowToBook: RowData => Book = (r) => DbCodeGenerator.rowToClass[Book](r)
   
   // query returning future list of books, safe query interpolation, converting maxPrice to a query argument  
   val maxPrice = 11.99
-  val allBooksFuture = DbAsync.exec\[Book\](q"select * from book where retail_price < $maxPrice")        
+  val allBooksFuture = DbAsync.exec[Book](q"select * from book where retail_price < $maxPrice")        
   
-  val oneBook: Future\[Book\] = DbAsync.execOne\[Book\](q"select * from book where book_id = 2")
+  val oneBook: Future[Book] = DbAsync.execOne[Book](q"select * from book where book_id = 2")
  
-  // returns Future\[Option\[\]\]     
-  val maybeOneBook: Future\[Option\[Book\]\] = DbAsync.execOneOrNone\[Book\](q"select * from book where book_id = -123")
+  // returns Future[Option[]]     
+  val maybeOneBook: Future[Option[Book]] = DbAsync.execOneOrNone[Book](q"select * from book where book_id = -123")
       
 ```
 
@@ -51,7 +51,7 @@ case class SuperHero(
   superHeroId: Int = 0,
   name: String = "",
   wearsTights: Boolean = false,
-  partner: Option\[String\] = None
+  partner: Option[String] = None
 )
 
 class SuperHeroAccess extends TableAccess[SuperHero](
@@ -62,7 +62,7 @@ class SuperHeroAccess extends TableAccess[SuperHero](
   (i) => DbCodeGenerator.identityInsertSql[SuperHero](i),
   (t, i) => t.copy(superHeroId = i)) {}
 
-// get SuperHero with id 2, all results are Future\[\] 
+// get SuperHero with id 2, all results are Future[] 
 val hero = superHeroAccess.get(2)
 
 // update Batman
@@ -89,12 +89,13 @@ The default connection string is for the samples is:
 
 Either change the connection string for your environment, or create a database named *dbmappersamples*, accessible by the postgres user with no password.
 
+
 Full ScalaDocs
 --------------
 
 [ScalaDocs](https://njeuk.github.io/dbmapper/latest/api) on GitHub
 
-[Best Starting Point](https://njeuk.github.io/dbmapper/latest/api/#com.github.njeuk.dbmapper.DbAsync$)
+[Best Starting Point](https://njeuk.github.io/dbmapper/latest/api/#com.github.njeuk.dbmapper.DbAsync$) in the docs
 
 
 Dependencies
