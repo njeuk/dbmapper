@@ -226,7 +226,7 @@ The table name is not pluralised, but is a straight conversion from the class na
 Each table has an Integer [surrogate key](http://en.wikipedia.org/wiki/Surrogate_key).  
 The surrogate key is named \<class\>Id (e.g. bookId) in Scala and \<table\>_id (e.g. book_id) in the database.
 
-If a variable is defined as an Option[] then the database will convert null column values to None.
+If a variable is defined as an Option[] then dbmapper will convert null column values to None.
 Otherwise null column values will cause an exception.
 
 See [ScalaToSqlNameConversion](https://github.com/njeuk/dbmapper-macros/blob/master/src/main/scala/com/github/njeuk/dbmapper/macros/ScalaToSqlNameConversion.scala)
@@ -304,7 +304,7 @@ A common compile error with dbmapper is:
    `not found: type CodeToSql
      () => DbCodeGenerator.codeToSql[T]()`
  
-this because need:
+you need:
      ```import com.github.njeuk.dbmapper.macros.CodeToSql```
 
 Limitations
