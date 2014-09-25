@@ -25,6 +25,7 @@ object Config {
   lazy val config = ConfigFactory.load()
 
   def getInt(key: String) : Option[Int] = Optional(config.getInt(key))
+  def getLong(key: String) : Option[Long] = Optional(config.getLong(key))
   def getBoolean(key: String) : Option[Boolean] = Optional(config.getBoolean(key))
   def getString(key: String) : Option[String] = Optional(config.getString(key))
 

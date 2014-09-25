@@ -17,6 +17,7 @@
 package com.github.njeuk.dbmapper
 
 import com.github.mauricio.async.db.Configuration
+import com.github.mauricio.async.db.pool.PoolConfiguration
 import com.github.mauricio.async.db.postgresql.util.URLParser
 import scala.concurrent.duration._
 
@@ -37,12 +38,14 @@ import scala.concurrent.duration._
  * @param configuration Configuration information used to setup the db connections
  * @param logQueriesLongerThan Any queries which take longer than the specified duration will be logged.
  *                             Use to identify slow queries.
+ * @param poolConfiguration
  */
 
 @annotation.implicitNotFound(msg = "Cannot find an implicit DbAsyncConfig for the database connection.  Either 'import com.github.njeuk.dbmapper.Implicits._' to use settings from the application.conf file or create an implicit DbAsyncConfig in scope with the database connection information.")
 case class DbAsyncConfig(
   configuration: Configuration,
-  logQueriesLongerThan: Duration = Duration(500, MILLISECONDS)
+  logQueriesLongerThan: Duration = Duration(500, MILLISECONDS),
+  poolConfiguration: PoolConfiguration = PoolConfiguration.Default
 )
 
 object DbAsyncConfig {
@@ -58,8 +61,19 @@ object DbAsyncConfig {
           Config.getString("db.default.password").map("&password=" + _).getOrElse("")
     }
 
-    DbAsyncConfig(URLParser.parse(getConnectionString()),
-      Duration(Config.getString("dbmapper.logging.maxQueryTime").getOrElse("500 millis")))
+    def getPoolConfiguration() : PoolConfiguration = {
+      new PoolConfiguration(
+        Config.getInt("dbmapper.poolSize").getOrElse(10),
+        Config.getLong("dbmapper.poolConnectionIdleTime").getOrElse(4),
+        Config.getInt("dbmapper.poolWaitingForConnectionQueueLength").getOrElse(10)
+      )
+    }
+
+    DbAsyncConfig(
+      URLParser.parse(getConnectionString()),
+      Duration(Config.getString("dbmapper.logging.maxQueryTime").getOrElse("500 millis")),
+      getPoolConfiguration()
+      )
   }
 }
 
