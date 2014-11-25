@@ -278,7 +278,8 @@ object DbAsync {
     if (pool.isEmpty || pool.get.isClosed) {
       synchronized {
         if (pool.isEmpty || pool.get.isClosed) {
-          val x = new ConnectionPool(getFactory(config), PoolConfiguration.Default)
+          log.debug(s"Creating connection pool : ${config.poolConfiguration}")
+          val x = new ConnectionPool(getFactory(config), config.poolConfiguration)
           Await.result(x.connect, 5 seconds)
           pool = Some(x)
         }
