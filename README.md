@@ -103,10 +103,15 @@ Dependencies
 
 The artifacts are hosted in JCenter on Bintray.
 
-If you are using SBT >= 0.13.5 then the Bintray resolver is already known, just add the following to your build.sbt:
+If you are using SBT >= 0.13.5 then the Bintray resolver is already known, just add the following to your libDependencies in build.sbt:
  
 ```
-"com.github.njeuk" %% "dbmapper" % "2.3.19"
+"com.github.njeuk" %% "dbmapper" % "2.3.28"
+```
+and a resolver to the JCenter Bintray Repository
+
+```
+resolvers += Resolver.jcenterRepo
 ```
 
 If you are using SBT < 0.13.5, then you need to add a resolver for BinTray, see here: https://github.com/softprops/bintray-sbt
@@ -120,8 +125,14 @@ Quick start
     libraryDependencies ++= Seq(
       ...
       "org.scalatestplus" % "play_2.11" % "1.1.0" % "test",
-      "com.github.njeuk" %% "dbmapper" % "2.3.19"
+      "com.github.njeuk" %% "dbmapper" % "2.3.28"
     )
+```
+
+1a. Depending on your SBT version, you will need to add a resolver to BinTray, most likely you need to add:
+
+```
+resolvers += Resolver.jcenterRepo
 ```
 
 2. Create a Case Class to represent the table in the database.
