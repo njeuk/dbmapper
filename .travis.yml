@@ -13,7 +13,7 @@ services:
 - postgresql
 
 script:
-- sbt scoverage:test
+- sbt coverage test
 - sbt coveralls
 
 before_script:
