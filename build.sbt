@@ -9,7 +9,7 @@ organization := "com.github.njeuk"
 
 description := "Scala Asynchronous Postgres datamapper and data table gateway"
 
-version := "2.6-SNAPSHOT"
+version := "2.6"
 
 scalaVersion := "2.11.8"
 
