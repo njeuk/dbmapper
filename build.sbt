@@ -1,7 +1,5 @@
 import bintray.AttrMap
 import bintray._
-import scoverage.ScoverageSbtPlugin.instrumentSettings
-import org.scoverage.coveralls.CoverallsPlugin.coverallsSettings
 
 name := "dbmapper"
 
@@ -16,10 +14,6 @@ scalaVersion := "2.11.8"
 scalacOptions += "-feature"
 
 publishMavenStyle := true
-
-instrumentSettings
-
-coverallsSettings
 
 site.settings
 
