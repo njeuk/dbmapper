@@ -1,14 +1,13 @@
 language: scala
 
 scala:
-- 2.11.2
+- 2.11.8
 
 jdk:
-- oraclejdk7
-- openjdk7
+- oraclejdk8
 
 addons:
-  postgresql: '9.3'
+  postgresql: '9.4'
 
 services:
 - postgresql
@@ -35,6 +34,6 @@ env:
 after_success:
   - >
       test "${TRAVIS_PULL_REQUEST}" = 'false' &&
-      test "${TRAVIS_JDK_VERSION}" = 'oraclejdk7' &&
+      test "${TRAVIS_JDK_VERSION}" = 'oraclejdk8' &&
       sh "$TRAVIS_BUILD_DIR/script/travis-ci-bintray-credentials.sh" &&
       sbt 'set version := version.value + "." + System.getenv("TRAVIS_BUILD_NUMBER")' publish

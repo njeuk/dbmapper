@@ -9,7 +9,7 @@ organization := "com.github.njeuk"
 
 description := "Scala Asynchronous Postgres datamapper and data table gateway"
 
-version := "2.6"
+version := "2.7"
 
 scalaVersion := "2.11.8"
 
@@ -43,7 +43,7 @@ libraryDependencies ++= Seq(
   "com.vividsolutions" % "jts" % "1.13",
   "com.typesafe" % "config" % "1.2.1",
   "ch.qos.logback" % "logback-classic" % "1.1.1",
-  "com.github.njeuk" %% "dbmapper-macros" % "2.5",
+  "com.github.njeuk" %% "dbmapper-macros" % "2.7.9",
   "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 )
 
