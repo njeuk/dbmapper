@@ -103,6 +103,13 @@ class Queries extends FlatSpec with Matchers with ScalaFutures with BeforeAndAft
     aBook.title should equal ("Functional Programming in Scala")
   }
 
+  it should "treat not treat integers as numeric" in {
+    DbAsync.execNonQuery("create or replace function has_int_arg(the_arg integer) returns integer language plpgsql AS $$\nbegin\n return the_arg + 1;\n end;\n$$").futureValue
+    val anInt : Integer = 42
+    val result = DbAsync.execOne[Int](q"select * from has_int_arg($anInt)")(r => r(0).toString.toInt, dbAsyncConfig).futureValue
+    result should equal(43)
+  }
+
   before {
     DbAsync.execNonQuery("drop table if exists book").futureValue
     DbAsync.execNonQuery("create table book(book_id serial, title text, retail_price numeric(10,2), publish_date date)").futureValue

@@ -54,7 +54,6 @@ object SqlInterpolation {
   // '$arg does string interpolation rather than argument
   implicit class SqlInterpolationHelper(val sc: StringContext) extends AnyVal {
     def q(args: Any*): SqlAndArgs = {
-
       var actualArgs:List[Any] = List()
       val parts = sc.parts.iterator.toList
       val inserts = args.iterator.toList
@@ -72,7 +71,7 @@ object SqlInterpolation {
           }
           else {
             actualArgs = b._2 :: actualArgs
-            a + b._1 + "?"
+            a + b._1 + "?" + (if (b._2.isInstanceOf[Int]) "::integer" else "")
           }
         }
       })
