@@ -14,7 +14,6 @@ services:
 
 script:
 - sbt coverage test
-- sbt coveralls
 
 before_script:
 - ./script/prepare_build.sh
@@ -32,6 +31,7 @@ env:
   - secure: XUWKNjdZ3omZUIFEBmMS5I38lp6M6ybujeXtkDRBf03bNRoya83LK0fF9tYQTixz4n6dVMg9EpufS8l/ZGBPrreYD7zqe8V0DsemUzB2DvWDajaWeG1z8ZAOSoILVTXu71XWEgz13C0u6OUfQqg0A6xbX9VxnqADPwN1H/sPNuA=
 
 after_success:
+  - sbt coverageAggregate coveralls
   - >
       test "${TRAVIS_PULL_REQUEST}" = 'false' &&
       test "${TRAVIS_JDK_VERSION}" = 'oraclejdk8' &&
