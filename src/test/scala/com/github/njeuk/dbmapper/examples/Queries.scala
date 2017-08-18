@@ -36,7 +36,7 @@ import scala.concurrent.duration.Duration
 
 class Queries extends FlatSpec with Matchers with ScalaFutures with BeforeAndAfter {
 
-  implicit override val patienceConfig = new PatienceConfig(scaled(Span(5000, Millis)), scaled(Span(15, Millis)))
+  implicit override val patienceConfig = new PatienceConfig(scaled(Span(50000, Millis)), scaled(Span(15, Millis)))
 
   /** Results from the Query are mapped onto the function's generic Type, Book in this sample.
   * This performed by the implicit function rowToBook in the sample.
@@ -49,7 +49,7 @@ class Queries extends FlatSpec with Matchers with ScalaFutures with BeforeAndAft
     * into the queries.  Here we initialise it with a jdbc url, there are other options to simply init
     * directly via PlayFramework application.config info.
     */
-  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("500 ms"))
+  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password=secret"), Duration("500 ms"))
 
   "dbmapper" should "do simple queries simply" in {
     val allBooks = DbAsync.exec[Book]("select * from book order by book_id").futureValue

@@ -35,8 +35,8 @@ import scala.concurrent.duration.Duration
   */
 
 class CrudSql extends FlatSpec with Matchers with ScalaFutures with BeforeAndAfter {
-  implicit override val patienceConfig = new PatienceConfig(scaled(Span(5000, Millis)), scaled(Span(15, Millis)))
-  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("500 ms"))
+  implicit override val patienceConfig = new PatienceConfig(scaled(Span(50000, Millis)), scaled(Span(15, Millis)))
+  implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password=secret"), Duration("500 ms"))
   val superHeroAccess = new SuperHeroAccess
 
   "dbmapper" should "get via the id, the id may not exist" in {
@@ -97,7 +97,6 @@ class CrudSql extends FlatSpec with Matchers with ScalaFutures with BeforeAndAft
     }
     catch {
       case e:Throwable => logger.error("failed", e)
-      case _ => logger.error("failed not throwable")
     }
     DbAsync.execNonQuery("create table super_hero(super_hero_id serial, name text not null, wears_tights boolean not null, partner text null)").futureValue
     DbAsync.execNonQuery("insert into super_hero(super_hero_id, name, wears_tights) values " +

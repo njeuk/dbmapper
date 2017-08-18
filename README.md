@@ -85,9 +85,9 @@ Full Code Samples
 
 The default connection string is for the samples is:
 
-`jdbc:postgresql://localhost/dbmappersamples?user=postgres&password=`
+`jdbc:postgresql://localhost/dbmappersamples?user=postgres&password=secret`
 
-Either change the connection string for your environment, or create a database named *dbmappersamples*, accessible by the postgres user with no password.
+Either change the connection string for your environment, or create a database named *dbmappersamples*, accessible by the postgres user with that password.
 
 
 Full ScalaDocs
@@ -164,7 +164,7 @@ What happens if you don't like the name mapping conventions between from Scala a
 
 You can setup the config explicitly like this:
 
-```implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("500 ms"))```
+```implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password=secret"), Duration("500 ms"))```
 
 Or more simply just import:
 
@@ -267,7 +267,7 @@ db.default.password=your-password-here
 
 You can also construct a DbAsyncConfig directly:
 
-```implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password="), Duration("500 ms"))```
+```implicit val dbAsyncConfig = DbAsyncConfig(URLParser.parse("jdbc:postgresql://localhost/dbmappersamples?user=postgres&password=secret"), Duration("500 ms"))```
 
 ### Code Generators
 
