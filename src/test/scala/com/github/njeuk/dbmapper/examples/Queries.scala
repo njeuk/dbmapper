@@ -15,15 +15,16 @@
  */
 package com.github.njeuk.dbmapper.examples
 
+import java.time.LocalDate
+
 import com.github.mauricio.async.db.RowData
 import com.github.mauricio.async.db.postgresql.util.URLParser
-import com.github.njeuk.dbmapper.{DbAsyncConfig, DbAsync}
+import com.github.njeuk.dbmapper.{DbAsync, DbAsyncConfig}
 import com.github.njeuk.dbmapper.macros.DbCodeGenerator
 import com.github.njeuk.dbmapper.SqlInterpolation._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{Millis, Span}
-import org.scalatest.{BeforeAndAfter, Matchers, FlatSpec}
-import org.joda.time.{Interval, LocalDate, LocalDateTime}
+import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
 import com.github.njeuk.dbmapper.RowDataExtension.RowDataExtensionImplicit
 
 import scala.concurrent.duration.Duration
@@ -54,14 +55,14 @@ class Queries extends FlatSpec with Matchers with ScalaFutures with BeforeAndAft
   "dbmapper" should "do simple queries simply" in {
     val allBooks = DbAsync.exec[Book]("select * from book order by book_id").futureValue
     allBooks.length should equal (3)
-    allBooks.head should equal (Book(1, "The Art Of Computer Programming", 134.41, new LocalDate(2011, 3, 3) ))
+    allBooks.head should equal (Book(1, "The Art Of Computer Programming", 134.41, LocalDate.of(2011, 3, 3) ))
   }
 
   it should "support query parameters without lots of fuss" in {
     val maxPrice = 100
     val allBooks = DbAsync.exec[Book](q"select * from book where retail_price < $maxPrice order by book_id").futureValue
     allBooks.length should equal (2)
-    allBooks.head should equal (Book(2, "Sql for Smarties", 29.73, new LocalDate(2010, 11, 1) ))
+    allBooks.head should equal (Book(2, "Sql for Smarties", 29.73, LocalDate.of(2010, 11, 1) ))
   }
 
   it should "let you specify if you only expect one row" in {

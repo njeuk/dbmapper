@@ -16,7 +16,8 @@
 
 package com.github.njeuk.dbmapper
 
-import org.joda.time.{LocalDateTime, LocalDate}
+import java.time.{LocalDate, LocalDateTime}
+
 
 /**
  * ColumnConversion provides implicit conversions from the types in the RowData column
@@ -40,6 +41,9 @@ object ColumnConversion {
 
   object ColumnConvertible {
 
+    def jodaLocalDateToLocalDate(joda: org.joda.time.LocalDate) : LocalDate = LocalDate.of(joda.getYear, joda.getMonthOfYear, joda.getDayOfMonth)
+    def jodaLocalDateTimeToLocalDateTime(joda: org.joda.time.LocalDateTime) : LocalDateTime = LocalDateTime.of(joda.getYear, joda.getMonthOfYear, joda.getDayOfMonth, joda.getHourOfDay, joda.getMinuteOfHour, joda.getSecondOfMinute, joda.getMillisOfSecond * 1000000)
+
     implicit object ColumnConvertibleString extends ColumnConvertible[String] {
       override def fromColumn(column: Any): String = column.asInstanceOf[String]
     }
@@ -56,10 +60,16 @@ object ColumnConversion {
       override def fromColumn(column: Any): Long = column.asInstanceOf[Long]
     }
     implicit object ColumnConvertibleLocalDate extends ColumnConvertible[LocalDate] {
-      override def fromColumn(column: Any): LocalDate = column.asInstanceOf[LocalDate]
+      override def fromColumn(column: Any): LocalDate = jodaLocalDateToLocalDate(column.asInstanceOf[org.joda.time.LocalDate])
     }
     implicit object ColumnConvertibleLocalDateTime extends ColumnConvertible[LocalDateTime] {
-      override def fromColumn(column: Any): LocalDateTime = column.asInstanceOf[LocalDateTime]
+      override def fromColumn(column: Any): LocalDateTime = jodaLocalDateTimeToLocalDateTime(column.asInstanceOf[org.joda.time.LocalDateTime])
+    }
+    implicit object ColumnConvertibleJodaLocalDate extends ColumnConvertible[org.joda.time.LocalDate] {
+      override def fromColumn(column: Any): org.joda.time.LocalDate = column.asInstanceOf[org.joda.time.LocalDate]
+    }
+    implicit object ColumnConvertibleJodaLocalDateTime extends ColumnConvertible[org.joda.time.LocalDateTime] {
+      override def fromColumn(column: Any): org.joda.time.LocalDateTime = column.asInstanceOf[org.joda.time.LocalDateTime]
     }
     implicit object ColumnConvertibleBigDecimal extends ColumnConvertible[BigDecimal] {
       override def fromColumn(column: Any): BigDecimal = column.asInstanceOf[BigDecimal]

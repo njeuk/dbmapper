@@ -16,9 +16,11 @@
 
 package com.github.njeuk.dbmapper
 
+import java.time.{LocalDate, LocalDateTime}
+
 import com.github.mauricio.async.db.RowData
-import org.joda.time.{LocalDate, LocalDateTime}
 import com.github.njeuk.dbmapper.RowDataExtension._
+
 import scala.language.implicitConversions
 
 /**
@@ -51,4 +53,6 @@ object RowDataStandardImplicitConversions {
   implicit def rowDataToLocalDateTuple(r: RowData): (LocalDate, LocalDate) = (r.get[LocalDate](0), r.get[LocalDate](1))
   implicit def rowDataToLocalDateDoubleTuple(r: RowData):(LocalDate, Double) = (r.get[LocalDate](0), r.get[Double](1))
   implicit def rowDataToLocalDateFloatTuple(r: RowData):(LocalDate, Float) = (r.get[LocalDate](0), r.get[Float](1))
+
+
 }

@@ -19,7 +19,6 @@ package com.github.njeuk.dbmapper.examples
 import com.github.mauricio.async.db.postgresql.util.URLParser
 import com.github.njeuk.dbmapper._
 import com.github.njeuk.dbmapper.macros._
-import org.joda.time.LocalDate
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{Millis, Span}
 import org.scalatest.{BeforeAndAfter, Matchers, FlatSpec}
