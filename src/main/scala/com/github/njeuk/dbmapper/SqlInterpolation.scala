@@ -16,6 +16,8 @@
 
 package com.github.njeuk.dbmapper
 
+import java.time.{LocalDate, LocalDateTime}
+
 /**
  * Provides query interpolation, similar to standard Scala string interpolation.
  *
@@ -71,7 +73,10 @@ object SqlInterpolation {
           }
           else {
             actualArgs = b._2 :: actualArgs
-            a + b._1 + "?" + (if (b._2.isInstanceOf[Int]) "::integer" else "")
+            a + b._1 + "?" + (if (b._2.isInstanceOf[Int]) "::integer" else
+              if (b._2.isInstanceOf[LocalDate]) "::date" else
+              if (b._2.isInstanceOf[LocalDateTime]) "::timestamp"
+              else "")
           }
         }
       })

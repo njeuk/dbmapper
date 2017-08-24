@@ -9,12 +9,22 @@ Features
 * Wraps [postgresql-async](https://github.com/mauricio/postgresql-async) to provide a simple asynchronous access to Postgres
 * SQL Queries with interpolation
 * Macro generated mapping layer from Scala type to Database Table
-* Provides a Table Data Gateway model [P of EAA](http://martinfowler.com/eaaCatalog/tableDataGateway.html)  
+* Provides a Table Data Gateway model [P of EAA](http://martinfowler.com/eaaCatalog/tableDataGateway.html)
+* If you are familiar with [Dapper](https://github.com/StackExchange/Dapper) then you will be familiar with dbmapper.
+* Fast
 
 Not Features
 ------------
 * No new Domain Specific Language to access data.  You know a pretty good database access DSL, it is called SQL. This is not [Typesafe's Slick](https://github.com/slick/slick]Slick)
 * No ORM.  No Hibernate magic.
+
+Warnings
+--------
+I use this code personally in some rather high transaction websites, it works well for me and I trust it.
+
+However, there are advantages in 'going with the crowd', and maybe you should consider using Slick.
+Slick now supports asynchronous queries, but it is quite an over engineered beast.
+
 
 Queries with interpolation for query arguments
 ----------------------------------------------
@@ -106,7 +116,7 @@ The artifacts are hosted in JCenter on Bintray.
 If you are using SBT >= 0.13.5 then the Bintray resolver is already known, just add the following to your libDependencies in build.sbt:
  
 ```
-"com.github.njeuk" %% "dbmapper" % "2.3.28"
+"com.github.njeuk" %% "dbmapper" % "3.3"
 ```
 and a resolver to the JCenter Bintray Repository
 
@@ -124,8 +134,8 @@ Quick start
 ```
     libraryDependencies ++= Seq(
       ...
-      "org.scalatestplus" % "play_2.11" % "1.1.0" % "test",
-      "com.github.njeuk" %% "dbmapper" % "2.3.28"
+      "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.1.1" % "test",      
+      "com.github.njeuk" %% "dbmapper" % "3.3"      
     )
 ```
 
@@ -318,6 +328,28 @@ A common compile error with dbmapper is:
 you need:
      ```import com.github.njeuk.dbmapper.macros.CodeToSql```
 
+Problems
+--------
+
+**strange compile error**
+
+Seeing the following compile error:
+
+`value get is not a member of com.github.mauricio.async.db.RowData
+ [error]   implicit def rowToBook: RowData => Contact = (r) => DbCodeGenerator.rowToClass[Contact](r)`
+
+You need to import 
+
+`import com.github.njeuk.dbmapper.RowDataExtension._`
+
+The macro generates code that relies on that import, unfortunately the intellij IDE doesn't know about the macro generated code and will constantly try and 'tidy up' your imports and remove that import!
+
+We could change the macro to generate code that doesn't depend on the RowDataExtension in the future, avoiding the import.
+
+**5 second delay on first connect when using OSX**
+
+There is an issue with the interplay between the Java DNS resolver and the Mac, see https://github.com/mauricio/postgresql-async/issues/222 for the resolution.  
+
 Limitations
 -----------
 
@@ -336,12 +368,15 @@ You can override theses assumptions on a case by case basis using @attributes. B
  Maybe we could pass the algorithm in to the code generators and evaluate them using [Twitters Eval](https://github.com/twitter/util/blob/master/util-eval/src/main/scala/com/twitter/util/Eval.scala).
  Not sure how bad this will impact compile speeds.
 
-### Code looks more like Java than Haskell 
-The code isn't really massively idiomatic functional Scala.  On the plus side, there are no loops in the code :-)
-
-### Only built for Scala 2.11.2 and above
+### Only built for Scala 2.12 and above
 Haven't built or tested for other older Scala versions.  It probably will work, but no idea, I don't use those version any more.
 
+Changes
+-------
+
+As of version 3.3 we only compile for Scala 2.12.
+
+Joda dates are no longer used, the standard Java date handling is better.
 
 License
 -------

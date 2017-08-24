@@ -41,7 +41,6 @@ object ColumnConversion {
 
   object ColumnConvertible {
 
-    def jodaLocalDateToLocalDate(joda: org.joda.time.LocalDate) : LocalDate = LocalDate.of(joda.getYear, joda.getMonthOfYear, joda.getDayOfMonth)
     def jodaLocalDateTimeToLocalDateTime(joda: org.joda.time.LocalDateTime) : LocalDateTime = LocalDateTime.of(joda.getYear, joda.getMonthOfYear, joda.getDayOfMonth, joda.getHourOfDay, joda.getMinuteOfHour, joda.getSecondOfMinute, joda.getMillisOfSecond * 1000000)
 
     implicit object ColumnConvertibleString extends ColumnConvertible[String] {
@@ -60,10 +59,22 @@ object ColumnConversion {
       override def fromColumn(column: Any): Long = column.asInstanceOf[Long]
     }
     implicit object ColumnConvertibleLocalDate extends ColumnConvertible[LocalDate] {
-      override def fromColumn(column: Any): LocalDate = jodaLocalDateToLocalDate(column.asInstanceOf[org.joda.time.LocalDate])
+      override def fromColumn(column: Any): LocalDate = {
+        val asJodaLocalDate = column.asInstanceOf[org.joda.time.LocalDate]
+        if (asJodaLocalDate == null)
+          null
+        else
+          LocalDate.of(asJodaLocalDate.getYear, asJodaLocalDate.getMonthOfYear, asJodaLocalDate.getDayOfMonth)
+      }
     }
     implicit object ColumnConvertibleLocalDateTime extends ColumnConvertible[LocalDateTime] {
-      override def fromColumn(column: Any): LocalDateTime = jodaLocalDateTimeToLocalDateTime(column.asInstanceOf[org.joda.time.LocalDateTime])
+      override def fromColumn(column: Any): LocalDateTime = {
+        val jodaLocalDateTime = column.asInstanceOf[org.joda.time.LocalDateTime]
+        if (jodaLocalDateTime == null)
+          null
+        else
+          LocalDateTime.of(jodaLocalDateTime.getYear, jodaLocalDateTime.getMonthOfYear, jodaLocalDateTime.getDayOfMonth, jodaLocalDateTime.getHourOfDay, jodaLocalDateTime.getMinuteOfHour, jodaLocalDateTime.getSecondOfMinute, jodaLocalDateTime.getMillisOfSecond * 1000000)
+      }
     }
     implicit object ColumnConvertibleJodaLocalDate extends ColumnConvertible[org.joda.time.LocalDate] {
       override def fromColumn(column: Any): org.joda.time.LocalDate = column.asInstanceOf[org.joda.time.LocalDate]
