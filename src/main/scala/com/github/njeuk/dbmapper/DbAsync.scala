@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Nick Edwards and collaborators
+ * Copyright 2022 Nick Edwards and collaborators
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,12 @@ package com.github.njeuk.dbmapper
 import com.github.mauricio.async.db._
 import com.github.mauricio.async.db.pool.{ConnectionPool, PoolConfiguration}
 import com.github.mauricio.async.db.postgresql.pool.PostgreSQLConnectionFactory
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.github.mauricio.async.db.util.Log
+
 import scala.async.Async._
+import scala.collection.mutable
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -240,7 +243,7 @@ object DbAsync {
     *
     * Not a big deal to do, will happen automatically in most instances when app closes.
     */
-  def shutdown: Unit = pool.map(_.close)
+  def shutdown: Unit = pools.foreach(cp => cp._2.close)
 
   ///////////////////////////////////////////////////////////
 
@@ -262,30 +265,41 @@ object DbAsync {
     f
   }
 
-  var factory: Option[PostgreSQLConnectionFactory] = None
+  val factories:  mutable.HashMap[DbAsyncConfig, PostgreSQLConnectionFactory] = mutable.HashMap.empty
 
   private def getFactory(config: DbAsyncConfig) : PostgreSQLConnectionFactory = {
-    factory.getOrElse(
-      {
-        factory = Some(new PostgreSQLConnectionFactory(config.configuration))
-        factory.get
+    synchronized {
+      factories.getOrElse(config, {
+        val factory = new PostgreSQLConnectionFactory(config.configuration)
+        factories += (config -> factory)
+        factory
       })
+    }
   }
 
-  @volatile var pool: Option[ConnectionPool[_]] = None
+  val pools: mutable.HashMap[DbAsyncConfig, ConnectionPool[_]] = mutable.HashMap.empty
 
   private def cn(config: DbAsyncConfig) : Connection = {
-    if (pool.isEmpty || pool.get.isClosed) {
-      synchronized {
-        if (pool.isEmpty || pool.get.isClosed) {
-          log.debug(s"Creating connection pool : ${config.poolConfiguration}")
-          val x = new ConnectionPool(getFactory(config), config.poolConfiguration)
-          Await.result(x.connect, 5 seconds)
-          pool = Some(x)
-        }
+    synchronized {
+      pools.get(config) match {
+        case None =>
+          log.debug(s"Creating new connection pool : ${config}")
+          val pool = new ConnectionPool(getFactory(config), config.poolConfiguration)
+          Await.result(pool.connect, 5 seconds)
+          pools += (config -> pool)
+          pool
+        case Some(pool) =>
+          if (pool.isClosed) {
+            log.debug(s"Replacing closed connection pool : ${config}")
+            val replacement = new ConnectionPool(getFactory(config), config.poolConfiguration)
+            Await.result(replacement.connect, 5 seconds)
+            pools.put(config, replacement)
+            replacement
+          }
+          else
+            pool
       }
     }
-    pool.get
   }
 
   private def displayableSql(sql: String, values: Seq[Any]) : String = {

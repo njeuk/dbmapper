@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Nick Edwards and collaborators
+ * Copyright 2022 Nick Edwards and collaborators
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,16 +49,16 @@ case class DbAsyncConfig(
 )
 
 object DbAsyncConfig {
-  def fromSettings: DbAsyncConfig = {
+  def fromSettings(setting: String = "default"): DbAsyncConfig = {
     def getConnectionString(): String = {
-      val connectionString = Config.getString("db.default.url")
-        .getOrElse(throw new Exception("Don't know how to connect to the database, either provide an explicit DbAsyncConf or add a play framework (db.default.url) style database property to application.conf (or as a -Ddb.default.url argument to the command line)"))
+      val connectionString = Config.getString(s"db.$setting.url")
+        .getOrElse(throw new Exception(s"Don't know how to connect to the database, either provide an explicit DbAsyncConf or add a play framework (db.$setting.url) style database property to application.conf (or as a -Ddb.default.url argument to the command line)"))
       if (connectionString.contains('?'))
         connectionString
       else
         connectionString +
-          Config.getString("db.default.user").map("?user=" + _).getOrElse("") +
-          Config.getString("db.default.password").map("&password=" + _).getOrElse("")
+          Config.getString(s"db.$setting.user").map("?user=" + _).getOrElse("") +
+          Config.getString(s"db.$setting.password").map("&password=" + _).getOrElse("")
     }
 
     def getPoolConfiguration() : PoolConfiguration = {

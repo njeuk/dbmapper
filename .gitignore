@@ -8,3 +8,4 @@ target
 /.project
 activator
 activator-launch-1.2.2.jar
+.DS_Store

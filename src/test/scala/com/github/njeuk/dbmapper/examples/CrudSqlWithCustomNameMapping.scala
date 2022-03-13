@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Nick Edwards and collaborators
+ * Copyright 2022 Nick Edwards and collaborators
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import scala.concurrent.duration.Duration
 
 
 /** This sample shows CRUD operations where there are not standard mapping from
-  * the Table to the Scala class.  
+  * the Table to the Scala class.
   */
 
 class CrudSqlWithCustomNameMapping extends FlatSpec with Matchers with ScalaFutures with BeforeAndAfter {
